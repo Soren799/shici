@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#F5F2EB">
+<title>拾词 · 四级核心词汇</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 首页 -->
+  <section id="view-home" class="view active">
+    <header class="home-top">
+      <div class="brand">
+        <span class="brand-mark">拾词</span>
+        <span class="brand-sub">CET-4 · 四级核心词汇</span>
+        <span class="streak-chip" id="home-streak" hidden></span>
+        <button class="gear" id="entry-settings" aria-label="设置">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.56-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.13z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="home-body">
+      <p class="micro-label">学习进度</p>
+      <div class="home-figure">
+        <span class="home-num" id="home-learned">0</span>
+        <span class="home-total" id="home-total">/ 0</span>
+      </div>
+      <div class="home-bar"><i id="home-bar-fill"></i></div>
+      <p class="home-next" id="home-next"></p>
+
+      <div class="home-stats">
+        <div class="stat">
+          <span class="stat-num" id="stat-today-learned">0</span>
+          <span class="stat-label">今日新学</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="stat-today-reviewed">0</span>
+          <span class="stat-label">今日复习</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="stat-pool">0</span>
+          <span class="stat-label">待复习</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="stat-mastered">0</span>
+          <span class="stat-label">已掌握</span>
+        </div>
+      </div>
+    </main>
+
+    <nav class="home-nav">
+      <button class="entry" id="entry-learn">
+        <span class="entry-cn">背单词</span>
+        <span class="entry-en">STUDY</span>
+      </button>
+      <button class="entry" id="entry-library">
+        <span class="entry-cn">词库</span>
+        <span class="entry-en">LIBRARY</span>
+      </button>
+      <button class="entry" id="entry-review">
+        <span class="entry-cn">复习单词<em class="entry-badge" id="entry-badge" hidden></em></span>
+        <span class="entry-en">REVIEW</span>
+      </button>
+    </nav>
+  </section>
+
+  <!-- 词库 -->
+  <section id="view-library" class="view">
+    <header class="flow-top">
+      <button class="back" id="library-back" aria-label="返回">&#8249;</button>
+      <span class="flow-title">词库</span>
+      <span class="flow-meta" id="library-meta">已选 0 / 0</span>
+    </header>
+    <div class="lib-search">
+      <input id="lib-search" placeholder="搜索单词或释义" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="unit-tabs" id="unit-tabs"></div>
+    <main class="library-body" id="library-body"></main>
+  </section>
+
+  <!-- 背单词 -->
+  <section id="view-learn" class="view">
+    <header class="flow-top">
+      <button class="back" id="learn-back" aria-label="返回">&#8249;</button>
+      <span class="flow-title">背单词</span>
+      <span class="flow-meta" id="learn-meta">0 / 0</span>
+    </header>
+    <div class="flow-bar"><i id="learn-bar"></i></div>
+
+    <main class="learn-card" id="learn-card">
+      <div class="learn-kicker">
+        <span class="micro-label" id="learn-unit"></span>
+        <span class="pool-chip" id="pool-chip" hidden>复习中</span>
+      </div>
+      <div class="group-dots" id="group-dots"></div>
+      <h1 class="learn-word" id="learn-word"></h1>
+      <div class="learn-tools">
+        <button class="speak" id="speak-btn" hidden aria-label="发音">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        </button>
+        <span class="learn-hint" id="learn-hint">轻触屏幕或下方按钮查看释义</span>
+      </div>
+      <div class="learn-reveal" id="learn-reveal" hidden>
+        <div class="rule-dot"><i></i></div>
+        <p class="learn-meaning" id="learn-meaning"></p>
+      </div>
+    </main>
+
+    <footer class="flow-foot learn-foot">
+      <button class="btn-ghost btn-prev" id="learn-prev">&#8249; 上一个</button>
+      <button class="btn-primary" id="learn-next">显示释义</button>
+    </footer>
+  </section>
+
+  <!-- 复习单词 -->
+  <section id="view-review" class="view">
+    <header class="flow-top">
+      <button class="back" id="review-back" aria-label="返回">&#8249;</button>
+      <span class="flow-title">复习单词</span>
+      <span class="flow-meta" id="review-meta">待复习 0</span>
+    </header>
+    <div class="flow-bar"><i id="review-bar"></i></div>
+
+    <main class="review-body" id="review-body"><!-- 动态渲染：按钮跟随内容流，避免被手机键盘遮挡 --></main>
+  </section>
+
+  <!-- 设置 -->
+  <section id="view-settings" class="view">
+    <header class="flow-top">
+      <button class="back" id="settings-back" aria-label="返回">&#8249;</button>
+      <span class="flow-title">设置</span>
+      <span class="flow-meta"></span>
+    </header>
+    <main class="settings-body">
+      <p class="micro-label">外观</p>
+      <div class="set-row">
+        <span class="set-label">深色模式</span>
+        <div class="seg" id="theme-seg">
+          <button data-t="auto">跟随系统</button>
+          <button data-t="light">浅色</button>
+          <button data-t="dark">深色</button>
+        </div>
+      </div>
+
+      <p class="micro-label">学习数据</p>
+      <div class="set-stats" id="set-stats"></div>
+
+      <p class="micro-label">重置</p>
+      <button class="btn-ghost set-danger" id="reset-progress">清空学习进度与复习池</button>
+      <p class="set-note">学习位置、复习池、掌握记录、今日统计将全部清零，不可恢复；词库勾选保留。</p>
+      <button class="btn-ghost set-danger" id="reset-skip">恢复所有单词为默认勾选</button>
+      <p class="set-note">清除词库里"不背"的标记，全部单词重新进入学习范围。</p>
+    </main>
+  </section>
+
+</div>
+
+<!-- 组完成 弹层 -->
+<div class="sheet-mask" id="sheet" hidden>
+  <div class="sheet">
+    <p class="micro-label" id="sheet-kicker">第 1 组背完了</p>
+    <h2 class="sheet-title" id="sheet-title">把这 5 个单词加入复习池？</h2>
+    <p class="sheet-sub">点一下可以取消勾选已经认识的词</p>
+    <div class="sheet-words" id="sheet-words"></div>
+    <div class="sheet-actions">
+      <button class="btn-ghost" id="sheet-skip">先不用</button>
+      <button class="btn-primary" id="sheet-add">加入复习池</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/words.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
