@@ -536,10 +536,11 @@ function renderQuestion() {
         <span class="streak-dots" id="q-dots">${dotsHTML(db.pool[q.id].s)}</span>
       </div>
       <p class="q-def">${esc(w.m)}</p>
-      <div class="slots${slotSize(w.w)}" id="slots">${fillSlotsHTML(q, [])}</div>
-      <input class="q-input" id="q-input" autocomplete="off" autocapitalize="off"
-             spellcheck="false" maxlength="${q.blanks.length}" enterkeyhint="done"
-             placeholder="补全缺失字母">
+      <div class="slots-wrap" id="slots-tap">
+        <div class="slots${slotSize(w.w)}" id="slots">${fillSlotsHTML(q, [])}</div>
+        <input class="q-input-hidden" id="q-input" autocomplete="off" autocapitalize="off"
+               spellcheck="false" maxlength="${q.blanks.length}" enterkeyhint="done" aria-label="输入缺失字母">
+      </div>
       <div class="answer-line" id="answer-line"></div>
       <div class="q-actions">
         <button class="btn-primary" id="review-action">提交</button>
@@ -556,6 +557,7 @@ function renderQuestion() {
     $('#slots').innerHTML = fillSlotsHTML(q, [...input.value]);
   });
   input.addEventListener('keydown', e => { if (e.key === 'Enter') submitAnswer(); });
+  $('#slots-tap').addEventListener('click', () => input.focus());
 
   $('#review-action').addEventListener('click', () => {
     if (!q.answered) { submitAnswer(); return; }
@@ -573,7 +575,7 @@ function renderQuestion() {
 /* 填空槽：提示过的空直接亮字母，其余由输入按顺序填充 */
 function fillSlotsHTML(q, typed) {
   const w = WORDS[q.id].w;
-  let out = '', ti = 0;
+  let out = '', ti = 0, nextIdx = -1;
   for (let i = 0; i < w.length; i++) {
     const ch = w[i];
     const bi = q.blanks.indexOf(i);
@@ -581,8 +583,11 @@ function fillSlotsHTML(q, typed) {
       if (q.hinted.has(bi)) {
         out += `<span class="slot hint">${esc(ch)}</span>`;
       } else {
-        const t = typed[ti++] || '';
-        out += `<span class="slot blank${t ? ' filled' : ''}">${esc(t)}</span>`;
+        const t = typed[ti] || '';
+        const next = t === '' && nextIdx === -1 ? ' next' : '';
+        if (t === '' && nextIdx === -1) nextIdx = 1;
+        out += `<span class="slot blank${t ? ' filled' : ''}${next}">${esc(t)}</span>`;
+        ti++;
       }
     } else if (ch === ' ' || ch === '-') {
       out += `<span class="slot" style="border-bottom-color:transparent">${ch === ' ' ? '' : '-'}</span>`;

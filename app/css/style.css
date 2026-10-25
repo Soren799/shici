@@ -240,17 +240,15 @@ button:active { opacity: .82; }
 .slot.miss { color: var(--bad); border-bottom-color: var(--bad); }
 .slot.hit { color: var(--good); border-bottom-color: var(--good); }
 
-.q-input {
-  display: block; width: 100%; max-width: 300px; margin: 0 auto;
-  background: transparent; border: 0; border-bottom: 2px solid var(--line);
-  font-family: var(--serif); font-size: 24px; text-align: center; padding: 8px 4px 10px;
-  color: var(--ink); border-radius: 0; outline: none; caret-color: var(--accent);
-  user-select: text; -webkit-user-select: text;
+.slots-wrap { position: relative; cursor: text; width: 100%; }
+.q-input-hidden {
+  position: absolute; left: 0; top: 0; width: 2px; height: 2px;
+  opacity: 0; border: 0; padding: 0; background: transparent; outline: none;
+  font-size: 16px; caret-color: transparent;
 }
-.q-input:focus { border-bottom-color: var(--ink-soft); }
-.q-input.ok { border-bottom-color: var(--good); }
-.q-input.no { border-bottom-color: var(--bad); }
-.q-input[disabled] { color: var(--ink-soft); }
+.slot.blank.next { border-bottom-color: var(--ink-soft); animation: slotPulse 1.3s ease-in-out infinite; }
+@keyframes slotPulse { 50% { opacity: .45; } }
+.slot.hit { color: var(--good); border-bottom-color: var(--good); }
 
 .answer-line { text-align: center; font-size: 15px; min-height: 24px; margin: 24px 0 6px; color: var(--muted); }
 .answer-line .ans-word { font-family: var(--serif); font-size: 19px; color: var(--bad); }
