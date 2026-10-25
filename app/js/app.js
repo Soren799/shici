@@ -108,8 +108,21 @@ const norm = s => s.toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ')
 
 const buzz = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
 
+/* 朗读：App 内走安卓原生 TTS 引擎，浏览器里退回 Web Speech API */
+const IS_NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+
 function speak(text) {
-  if (!HAS_TTS || !text) return;
+  if (!text) return;
+  if (IS_NATIVE) {
+    try {
+      const TTS = window.Capacitor.Plugins.TextToSpeech;
+      if (!TTS) return;
+      Promise.resolve(TTS.cancel && TTS.cancel()).catch(() => {});
+      TTS.speak({ text, lang: 'en-US', rate: 0.85, pitch: 1.0 }).catch(() => {});
+    } catch (e) {}
+    return;
+  }
+  if (!HAS_TTS) return;
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -222,7 +235,7 @@ function updateLearnUI() {
   wordEl.style.animation = 'none';
   void wordEl.offsetWidth;          // 重新触发入场动画
   wordEl.style.animation = '';
-  $('#speak-btn').hidden = !HAS_TTS;
+  $('#speak-btn').hidden = false;
   $('#learn-meaning').textContent = w.m;
   $('#learn-reveal').hidden = !revealed;
   $('#learn-hint').hidden = revealed;
